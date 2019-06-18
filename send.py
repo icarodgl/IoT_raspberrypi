@@ -13,6 +13,8 @@ def getMacAddress():
     return ""
   elif (len(interfaces) > 1):
     interface = interfaces[1]
+  else:
+    interface = interfaces[0]
   return netifaces.ifaddresses(interface)[netifaces.AF_LINK][0]["addr"]
 
 # tempo para iniciar o sistema e não dar erro.

@@ -1,16 +1,28 @@
 #!/usr/bin/env python
 import pika
+import json
+from peewee import *
+from model import Dados
 
-credentials = pika.PlainCredentials('pi', '123123')
+
+credentials = pika.PlainCredentials('pi', 'raspberry')
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('10.0.0.2', 5672, '/', credentials))
+    pika.ConnectionParameters('172.16.108.16', 5672, '/', credentials))
 channel = connection.channel()
 
 channel.queue_declare(queue='hello')
 
 
 def callback(ch, method, properties, body):
-    print("Received: %r" % body)
+    mensagem = json.loads(body)
+    print("Received: %r" % mensagem)
+    Dados.create(    
+                    rasp_id = mensagem["id"],
+                    temp = mensagem["temp"],
+                    umi = mensagem["umi"],
+                    pres = mensagem["pres"],
+                    data = mensagem["date"],
+                    )
 
 
 channel.basic_consume(

@@ -3,21 +3,35 @@ import pika
 import random
 import time
 import datetime
+import json
+import netifaces
+
+def getMacAddress():
+  interfaces = netifaces.interfaces()
+  interface = interfaces[0]
+  if (len(interfaces) == 0):
+    return ""
+  elif (len(interfaces) > 1):
+    interface = interfaces[1]
+  return netifaces.ifaddresses(interface)[netifaces.AF_LINK][0]["addr"]
 
 # tempo para iniciar o sistema e não dar erro.
 print("sender iniciando....")
-time.sleep(90)
+# time.sleep(10)
 print("sender  conectando e enviando dados:")
-credentials = pika.PlainCredentials('pi', '123123')
+credentials = pika.PlainCredentials('pi', 'raspberry')
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('10.0.0.2', 5672, '/', credentials))
+   pika.ConnectionParameters('localhost', 5672, '/', credentials))
 channel = connection.channel()
 
-channel.queue_declare(queue='hello')
+channel.queue_declare(queue='info_data')
 
 meta = {"temp": 20.0, "pres": 1.0, "umi": 50.0}
 atual = {"temp": 20.0, "pres": 1.0, "umi": 50.0}
-while 1:
+macaddress = getMacAddress()
+active = True
+while active:
+  try:
     time.sleep(1)
     # logica do fake data
     if (round(atual["temp"], 1) == round(meta["temp"], 1)):
@@ -29,13 +43,16 @@ while 1:
     atual["umi"] += (meta["umi"] - atual["umi"])/10
     atual["pres"] += (meta["pres"] - atual["pres"])/10
     atual["temp"] += (meta["temp"] - atual["temp"])/10
-    mensagem = "data: %s temp:%.2f, pres: %.3f, umi: %.2f" % (datetime.datetime.now(
-    ).__str__(), atual["temp"], atual["pres"], atual["umi"],)
+    atual["date"] = datetime.datetime.now().__str__()
+    atual["id"] = macaddress
+    mensagem = json.dumps(atual)
     # fim
     # envia a mensagem
-    channel.basic_publish(exchange='', routing_key='hello', body=mensagem)
+    channel.basic_publish(exchange='', routing_key='info_data', body=mensagem)
     # avisa que enviou
     print("enviado data: %s" % mensagem)
-
+  except KeyboardInterrupt:
+    active = False
+    print("", end="\r")
 print("finalizado")
 connection.close()

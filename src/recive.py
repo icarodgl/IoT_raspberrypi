@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import pika
 import json
-from peewee import *
 from model import Dados
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-
-credentials = pika.PlainCredentials('pi', 'raspberry')
+parameters = pika.URLParameters(os.getenv('URL_MQ'))
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('172.16.108.16', 5672, '/', credentials))
+    parameters)
 channel = connection.channel()
 
 channel.queue_declare(queue='info_data')
@@ -29,4 +30,11 @@ channel.basic_consume(
     queue='info_data', on_message_callback=callback, auto_ack=True)
 
 print(' [*] Waiting for messages. To exit press CTRL+C')
-channel.start_consuming()
+
+try:
+    # Loop so we can communicate with RabbitMQ
+    channel.start_consuming()
+except KeyboardInterrupt:
+    # Gracefully close the connection
+    connection.close()
+    print("Obrigado pelos peixes")

@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 import pika
 from data_generator import DataGenerator
-import datetime
 import time
-#from daemonize import Daemonize
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 def main():
     # tempo para iniciar o sistema e não dar erro.
-    print("sender iniciando....")
-    time.sleep(1)
     print("sender  conectando e enviando dados:")
-    credentials = pika.PlainCredentials('pi', 'raspberry')
+    parameters = pika.URLParameters(os.getenv('URL_MQ'))
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters('localhost', 5672, '/', credentials))
+        parameters)
     channel = connection.channel()
 
     channel.queue_declare(queue='info_data')
@@ -32,11 +30,7 @@ def main():
         except KeyboardInterrupt:
             active = False
             print("", end="\r")
-    print("finalizado")
-    connection.close()
-
-
+            print("finalizado")
+            connection.close()
 main()
-#pid = "/tmp/test.pid"
-#daemon = Daemonize(app="send_IOT", pid=pid, action=main)
-# daemon.start()
+

@@ -15,6 +15,7 @@ flask-restful = "*"
 flask-script = "*"
 requests = "*"
 gunicorn = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"

@@ -25,8 +25,8 @@ def callback(ch, method, properties, body):
                     data = mensagem["date"],
                     )
         print("Salvo: %r" % mensagem)
-    except:
-        print("erro ao salvar: %r" % mensagem)
+    except Exception as e:
+        print("erro ao salvar: %s" % e)
 
 
 channel.basic_consume(

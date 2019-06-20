@@ -16,14 +16,17 @@ channel.queue_declare(queue='info_data')
 
 def callback(ch, method, properties, body):
     mensagem = json.loads(body)
-    print("Received: %r" % mensagem)
-    Dados.create(    
+    try:
+        Dados.create(
                     rasp_id = mensagem["id"],
                     temp = mensagem["temp"],
                     umi = mensagem["umi"],
                     pres = mensagem["pres"],
                     data = mensagem["date"],
                     )
+        print("Salvo: %r" % mensagem)
+    except:
+        print("erro ao salvar: %r" % mensagem)
 
 
 channel.basic_consume(

@@ -1,2 +1,2 @@
-web: cd ./src/backend/ && python run.py runserver
-worker: cd ./src/ && python recive.py
+web: cd ./src/ && python web.py
+worker: python ./src/recive.py

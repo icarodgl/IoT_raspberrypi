@@ -3,7 +3,7 @@ import pika
 from data_generator import DataGenerator
 import datetime
 import time
-from daemonize import Daemonize
+#from daemonize import Daemonize
 
 
 def main():
@@ -11,9 +11,9 @@ def main():
     print("sender iniciando....")
     time.sleep(1)
     print("sender  conectando e enviando dados:")
-    credentials = pika.PlainCredentials('pi', '123123')
+    credentials = pika.PlainCredentials('pi', 'raspberry')
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters('10.0.0.2', 5672, '/', credentials))
+        pika.ConnectionParameters('localhost', 5672, '/', credentials))
     channel = connection.channel()
 
     channel.queue_declare(queue='info_data')
@@ -36,6 +36,7 @@ def main():
     connection.close()
 
 
-pid = "/tmp/test.pid"
-daemon = Daemonize(app="send_IOT", pid=pid, action=main)
-daemon.start()
+main()
+#pid = "/tmp/test.pid"
+#daemon = Daemonize(app="send_IOT", pid=pid, action=main)
+# daemon.start()

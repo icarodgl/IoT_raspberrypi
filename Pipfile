@@ -15,7 +15,6 @@ flask-restful = "*"
 flask-script = "*"
 requests = "*"
 gunicorn = "*"
-fcntl = "*"
 
 [requires]
 python_version = "3.7"

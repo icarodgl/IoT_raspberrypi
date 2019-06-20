@@ -18,7 +18,6 @@ class get_dados (Resource):
         dados = Dados.select()
         print(dados)
         return jsonify(dados)
-
 api.add_resource(ping, '/')
 api.add_resource(get_dados, '/dados/')
 

@@ -35,6 +35,4 @@ try:
     # Loop so we can communicate with RabbitMQ
     channel.start_consuming()
 except KeyboardInterrupt:
-    # Gracefully close the connection
-    connection.close()
     print("Obrigado pelos peixes")

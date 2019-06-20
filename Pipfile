@@ -9,6 +9,13 @@ verify_ssl = true
 pika = "*"
 netifaces = "*"
 peewee = "*"
+python-dotenv = "*"
+flask = "*"
+flask-restful = "*"
+flask-script = "*"
+requests = "*"
+gunicorn = "*"
+fcntl = "*"
 
 [requires]
 python_version = "3.7"

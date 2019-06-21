@@ -25,7 +25,7 @@ Vamos configurar o raspberry para niciar o script ao ligar:
 
 abra o .profile  `nano .profile` e adicione a seguinte linha no final do arquivo:
 ````shell
-run ./IoT_raspberrypi/src/run_sender.sh
+run python3 IoT_raspberrypi/src/send.py
 ````
 ao reiniciar o seu raspberry ele irá executar automaticamente o comando após login
 

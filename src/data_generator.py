@@ -17,7 +17,8 @@ class DataGenerator:
         if (round(self.atual["temp"], 1) == round(self.meta["temp"], 1)):
             self.meta["temp"] = random.randint(20, 35) + random.random()
         if (round(self.atual["pres"], 3) == round(self.meta["pres"], 3)):
-            self.meta["pres"] = random.random()
+            rval = random.random()
+            self.meta["pres"] = (1.5 + rval)/2
         if (round(self.atual["umi"], 1) == round(self.meta["umi"], 1)):
             self.meta["umi"] = random.randint(40, 95) + random.random()
         mensagem = ""
@@ -29,7 +30,7 @@ class DataGenerator:
             self.atual["date"] = datetime.datetime.now().__str__()
             self.atual["id"] = self.macaddress
             mensagem = json.dumps(self.atual)
-        elif (regulador >= 90):
+        elif (regulador >= 95):
             mensagem = json.dumps({"ruido": "huehuehuehuehue"})
         else:
             self.atual["date"] = datetime.datetime.now().__str__()

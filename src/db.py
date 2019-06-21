@@ -11,7 +11,7 @@ class BancoConfig:
         db2 = PostgresqlDatabase(
             'wfbhsspy',  # Required by Peewee.
             user='wfbhsspy',  # Will be passed directly to psycopg2.
-            password=os.environ.get("DB_PASS"),  # Ditto.
+            password=os.environ.get("DB_PASS","MTt6qLJu67UjaczvezfMYmvw6cXgn9iB"),  # Ditto.
             host='raja.db.elephantsql.com')  # Ditto.
 
         # os.environ.get('BD_RPGMESA')

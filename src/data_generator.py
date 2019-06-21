@@ -3,6 +3,7 @@ import random
 import datetime
 import netifaces
 import json
+from pytz import timezone
 
 
 class DataGenerator:
@@ -11,6 +12,7 @@ class DataGenerator:
         self.meta = {"temp": 20.0, "pres": 1.0, "umi": 50.0}
         self.atual = {"temp": 20.0, "pres": 1.0, "umi": 50.0}
         self.macaddress = self.getMacAddress()
+        self.fuso_horario = timezone('America/Sao_Paulo')
 
     def generate(self):
         # logica do fake data coletar dados de um sendor de verdade
@@ -27,13 +29,13 @@ class DataGenerator:
             self.atual["umi"] += (self.meta["umi"] - self.atual["umi"])/10
             self.atual["pres"] += (self.meta["pres"] - self.atual["pres"])/10
             self.atual["temp"] += (self.meta["temp"] - self.atual["temp"])/10
-            self.atual["date"] = datetime.datetime.now().__str__()
+            self.atual["date"] = datetime.datetime.now(tz=self.fuso_horario).__str__()
             self.atual["id"] = self.macaddress
             mensagem = json.dumps(self.atual)
         elif (regulador >= 95):
             mensagem = json.dumps({"ruido": "huehuehuehuehue"})
         else:
-            self.atual["date"] = datetime.datetime.now().__str__()
+            self.atual["date"] = datetime.datetime.now(tz=self.fuso_horario).__str__()
             self.atual["id"] = self.macaddress
             mensagem = json.dumps(self.atual)
         return mensagem

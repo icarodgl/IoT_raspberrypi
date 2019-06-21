@@ -24,6 +24,7 @@ caso não funcione instale manualmente:
 pip install pika
 pip install python-dotenv
 pip install netifaces
+pip install pytz
 ```
 Agora você já possui o python configurado para rodar o projeto.
 renomeie o arquivo .env.exemplo para .env

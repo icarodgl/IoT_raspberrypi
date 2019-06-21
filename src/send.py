@@ -20,7 +20,7 @@ def main():
     active = True
     while active:
         try:
-            time.sleep(1)
+            time.sleep(5)
             mensagem = gerador.generate()
             # envia a mensagem
             channel.basic_publish(

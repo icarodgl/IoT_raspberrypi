@@ -26,7 +26,8 @@ class DataGenerator:
         self.atual["date"] = datetime.datetime.now().__str__()
         self.atual["id"] = self.macaddress
         mensagem = json.dumps(self.atual)
-
+        if (random.randint(1,100) > 90):
+            mensagem = json.dumps({"ruido": "huehuehuehuehue"})
         return mensagem
 
     def getMacAddress(self):

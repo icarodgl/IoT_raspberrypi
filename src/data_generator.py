@@ -20,14 +20,21 @@ class DataGenerator:
             self.meta["pres"] = random.random()
         if (round(self.atual["umi"], 1) == round(self.meta["umi"], 1)):
             self.meta["umi"] = random.randint(40, 95) + random.random()
-        self.atual["umi"] += (self.meta["umi"] - self.atual["umi"])/10
-        self.atual["pres"] += (self.meta["pres"] - self.atual["pres"])/10
-        self.atual["temp"] += (self.meta["temp"] - self.atual["temp"])/10
-        self.atual["date"] = datetime.datetime.now().__str__()
-        self.atual["id"] = self.macaddress
-        mensagem = json.dumps(self.atual)
-        if (random.randint(1,100) > 90):
+        mensagem = ""
+        regulador = random.randint(1,100)
+        if (regulador <= 20 ):
+            self.atual["umi"] += (self.meta["umi"] - self.atual["umi"])/10
+            self.atual["pres"] += (self.meta["pres"] - self.atual["pres"])/10
+            self.atual["temp"] += (self.meta["temp"] - self.atual["temp"])/10
+            self.atual["date"] = datetime.datetime.now().__str__()
+            self.atual["id"] = self.macaddress
+            mensagem = json.dumps(self.atual)
+        elif (regulador >= 90):
             mensagem = json.dumps({"ruido": "huehuehuehuehue"})
+        else:
+            self.atual["date"] = datetime.datetime.now().__str__()
+            self.atual["id"] = self.macaddress
+            mensagem = json.dumps(self.atual)
         return mensagem
 
     def getMacAddress(self):

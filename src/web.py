@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 from flask import Flask,jsonify
 from flask_restful import Resource, Api
+from flask_cors import CORS
 import os
 from model import Dados
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 

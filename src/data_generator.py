@@ -17,18 +17,18 @@ class DataGenerator:
     def generate(self):
         # logica do fake data coletar dados de um sendor de verdade
         if (round(self.atual["temp"], 1) == round(self.meta["temp"], 1)):
-            self.meta["temp"] = random.randint(20, 35) + random.random()
+            self.meta["temp"] = random.randint(24, 28) + random.random()
         if (round(self.atual["pres"], 3) == round(self.meta["pres"], 3)):
             rval = random.random()
             self.meta["pres"] = (1.5 + rval)/2
         if (round(self.atual["umi"], 1) == round(self.meta["umi"], 1)):
-            self.meta["umi"] = random.randint(40, 95) + random.random()
+            self.meta["umi"] = random.randint(60, 80) + random.random()
         mensagem = ""
         regulador = random.randint(1,100)
-        if (regulador <= 20 ):
-            self.atual["umi"] += (self.meta["umi"] - self.atual["umi"])/10
-            self.atual["pres"] += (self.meta["pres"] - self.atual["pres"])/10
-            self.atual["temp"] += (self.meta["temp"] - self.atual["temp"])/10
+        if (regulador <= 5 ):
+            self.atual["umi"] += round((self.meta["umi"] - self.atual["umi"])/10, 2)
+            self.atual["pres"] += round((self.meta["pres"] - self.atual["pres"])/10, 2)
+            self.atual["temp"] += round((self.meta["temp"] - self.atual["temp"])/10, 2)
             self.atual["date"] = datetime.datetime.now(tz=self.fuso_horario).__str__()
             self.atual["id"] = self.macaddress
             mensagem = json.dumps(self.atual)

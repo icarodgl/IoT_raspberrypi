@@ -20,7 +20,6 @@ def main():
     active = True
     while active:
         try:
-            time.sleep(5)
             mensagem = gerador.generate()
             # envia a mensagem
             channel.basic_publish(
@@ -32,5 +31,6 @@ def main():
             print("", end="\r")
             print("finalizado")
             connection.close()
+        time.sleep(30)
 main()
 

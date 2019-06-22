@@ -10,7 +10,11 @@ class DataGenerator:
 
     def __init__(self):
         self.meta = {"temp": 20.0, "pres": 1.0, "umi": 50.0}
-        self.atual = {"temp": 20.0, "pres": 1.0, "umi": 50.0}
+        self.atual = {
+            "temp":round( random.randint(24, 28) + random.random(),2),
+            "pres":round( ((1.5 + random.random())/2),2),
+            "umi":round( random.randint(60, 80) + random.random(),2)
+        }
         self.macaddress = self.getMacAddress()
         self.fuso_horario = timezone('America/Sao_Paulo')
 

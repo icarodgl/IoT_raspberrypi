@@ -31,6 +31,6 @@ def main():
             print("", end="\r")
             print("finalizado")
             connection.close()
-        time.sleep(30)
+        time.sleep(5)
 main()
 

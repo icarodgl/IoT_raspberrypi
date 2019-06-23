@@ -13,20 +13,32 @@ channel = connection.channel()
 
 channel.queue_declare(queue='info_data')
 
+def validador(mensagem):
+    try:
+        if mensagem["temp"] > 0 and mensagem["temp"] < 50 and mensagem["pres"] > 0 and mensagem["pres"] < 1.5 and mensagem["umi"] > 20 and mensagem["umi"] < 100:
+            return 1
+    except:
+        print("mensagem muito errada!")
+    return 0
 
 def callback(ch, method, properties, body):
     mensagem = json.loads(body)
-    try:
-        Dados.create(
-                    rasp_id = mensagem["id"],
-                    temp = mensagem["temp"],
-                    umi = mensagem["umi"],
-                    pres = mensagem["pres"],
-                    data = mensagem["date"],
-                    )
-        print("Salvo: %r" % mensagem)
-    except Exception as e:
-        print("erro ao salvar: %s" % e)
+
+    if validador(mensagem):
+        try:
+
+            Dados.create(
+                        rasp_id = mensagem["id"],
+                        temp = mensagem["temp"],
+                        umi = mensagem["umi"],
+                        pres = mensagem["pres"],
+                        data = mensagem["date"],
+                        )
+            print("Salvo: %r" % mensagem)
+        except Exception as e:
+            print("erro ao salvar: %s" % e)
+    else:
+        print("A mensagem não passou pela teste de validação")
 
 
 channel.basic_consume(
